@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Analog Clock</title>
+    <style>
+
+
+
+    </style>
+    <script>
+function drawClock() {
+  // キャンバスを取得
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+
+// 画面をクリアする
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 原点を中心にする
+  var centerX = canvas.width / 2;
+  var centerY = canvas.height / 2;
+
+  // 半径を指定する
+  var radius = canvas.width / 2 - 10;
+
+  // 枠を描画する
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+  ctx.stroke();
+
+  // 目盛りを描画する
+  for (var i = 0; i < 12; i++) {
+    var angle = (i - 3) * (Math.PI * 2) / 12;
+    var x = centerX + Math.cos(angle) * radius;
+    var y = centerY + Math.sin(angle) * radius;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // 時、分、秒を取得する
+  var now = new Date();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+  var second = now.getSeconds();
+
+  // 時針を描画する
+  var hourAngle = (hour - 3) * (Math.PI * 2) / 12 + (minute * (Math.PI * 2) / 12 / 60);
+  var hourRadius = radius * 0.5;
+  var hourX = centerX + Math.cos(hourAngle) * hourRadius;
+  var hourY = centerY + Math.sin(hourAngle) * hourRadius;
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
+  ctx.lineTo(hourX, hourY);
+  ctx.stroke();
+
+  // 分針を描画する
+  var minuteAngle = (minute - 15) * (Math.PI * 2) / 60;
+  var minuteRadius = radius * 0.8;
+  var minuteX = centerX + Math.cos(minuteAngle) * minuteRadius;
+  var minuteY = centerY + Math.sin(minuteAngle) * minuteRadius;
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
+  ctx.lineTo(minuteX, minuteY);
+  ctx.stroke();
+  
+  // 針の色を設定する
+ctx.strokeStyle = "blue";
+  
+  // 針の太さを設定する
+ctx.lineWidth = 3;
+  
+  // 秒針を描画する
+  var secondAngle = (second - 15) * (Math.PI * 2) / 60;
+  var secondRadius = radius * 0.9;
+  var secondX = centerX + Math.cos(secondAngle) * secondRadius;
+  var secondY = centerY + Math.sin(secondAngle) * secondRadius;
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
+  ctx.lineTo(secondX, secondY);
+  ctx.stroke();
+}
+
+window.onload = function() {
+drawClock();
+setInterval(drawClock, 1000);
+}
+
+    </script>  
+  </head>
+  <body>
+    <canvas id="canvas" width="200" height="200"></canvas>
+    </script>
+
+
+  </body>
+</html>
